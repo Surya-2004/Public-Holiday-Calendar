@@ -38,11 +38,11 @@ Highlights a holiday on the calendar and shows detailed information.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/your-repo.git
+   git clone https://github.com/Surya-2004/Public-Holiday-Calendar.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd project-root
+   cd Public-Holiday-Calendar
    ```
 3. Install dependencies for both backend and frontend:
    ```bash
