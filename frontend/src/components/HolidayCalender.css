@@ -1,0 +1,134 @@
+/* General Container */
+.holiday-calendar-container {
+  min-height: 100vh;
+  background-color: #1a202c;
+  color: white;
+  font-family: 'Arial', sans-serif;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center; /* Center the whole content */
+  align-items: flex-start;
+  gap: 20px; /* Space between the left and right sections */
+}
+
+/* Header */
+.holiday-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #2d3748;
+  color: #63b3ed;
+  text-align: center;
+  padding: 15px 0;
+  z-index: 10;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.holiday-header h1 {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+/* Main Content */
+.holiday-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 100px; /* To prevent overlap with header */
+  padding: 20px;
+  gap: 20px; /* Space between the calendar and holiday details */
+  width: 100%;
+  max-width: 1200px; /* To control the overall width */
+}
+
+/* Calendar Section */
+.calendar-container {
+  flex: 1;
+  max-width: 600px; /* Make calendar occupy half of the available width */
+  display: flex;
+  justify-content: center; /* Centering calendar */
+}
+
+.styled-calendar {
+  width: 100%;
+  font-size: 1.2rem;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #2d3748;
+  color: white;
+}
+
+/* Calendar Tile Styles */
+.react-calendar__tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px !important; /* Equal height for all date cells */
+  width: 50px !important; /* Equal width for all date cells */
+  box-sizing: border-box;
+}
+
+.react-calendar__tile:hover {
+  background-color: #4a5568 !important; /* Darker hover effect */
+  color: white !important;
+}
+
+/* Custom Hover Effect for Holiday */
+.holiday-tile:hover {
+  background-color: #63b3ed !important;
+  color: #2d3748 !important;
+}
+
+/* Holiday Details Section */
+.holiday-details {
+  flex: 1;
+  max-width: 500px; /* Control the width of holiday details */
+  padding: 15px;
+  background-color: #2d3748;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.holiday-details h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.holiday-item {
+  background-color: #1a202c;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.holiday-item h3 {
+  font-size: 1.2rem;
+  color: #63b3ed;
+  margin-bottom: 5px;
+}
+
+/* Error and Loading Text */
+.loading-text,
+.error-text {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+/* Adjust Month Navigation Buttons */
+.react-calendar__navigation button {
+  background-color: transparent;
+  color: #fff;
+  border: none;
+  font-size: 1.2rem;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.react-calendar__navigation button:hover {
+  background-color: #4a5568 !important;
+  color: #63b3ed !important;
+}
