@@ -16,7 +16,7 @@ const HolidayCalendar = ({ countryCode, countryName }) => {
     const fetchHolidays = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/holidays/${countryCode}`
+          `https://public-holiday-calendar.onrender.com/api/holidays/${countryCode}`
         );
         setHolidays(response.data.holidays);
         setMarkedDates(

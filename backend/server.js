@@ -21,7 +21,7 @@ async function syncModels() {
   }
 }
 
-// Sync models once when Vercel deploys the function (not for every request)
+
 syncModels();
 
 // Routes
