@@ -18,7 +18,7 @@ const HolidayCalendar = ({ countryCode, countryName }) => {
       setError(""); // Clear previous error
 
       const response = await axios.get(
-        `http://localhost:5000/api/holidays/${encodeURIComponent(countryCode)}/${year}`
+        `https://public-holiday-calendar.onrender.com/api/holidays/${encodeURIComponent(countryCode)}/${year}`
       );
 
       if (response.data && response.data.holidays) {

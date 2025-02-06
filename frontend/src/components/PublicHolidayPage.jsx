@@ -10,7 +10,7 @@ const PublicHolidayPage = () => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/countries");
+        const response = await axios.get("https://public-holiday-calendar.onrender.com/api/countries");
         setCountries(response.data);
       } catch (err) {
         setError("Failed to load countries. Please try again later.");
