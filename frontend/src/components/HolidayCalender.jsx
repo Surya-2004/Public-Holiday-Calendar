@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./HolidayCalender.css";
@@ -12,40 +12,60 @@ const HolidayCalendar = ({ countryCode, countryName }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const fetchHolidays = async (year) => {
+  const fetchHolidays = useCallback(async (year) => {
     try {
       setLoading(true);
+      setError(""); // Clear previous error
+
       const response = await axios.get(
-        `https://public-holiday-calendar.onrender.com/api/holidays/${countryCode}/${year}`
+        `http://localhost:5000/api/holidays/${encodeURIComponent(countryCode)}/${year}`
       );
-      setHolidays(response.data.holidays);
-      setMarkedDates(response.data.holidays.map((holiday) => new Date(holiday.date)));
-      setError("");
+
+      if (response.data && response.data.holidays) {
+        const holidayDates = response.data.holidays.map((holiday) => new Date(holiday.date));
+        setHolidays(response.data.holidays);
+        setMarkedDates(holidayDates);
+      } else {
+        setHolidays([]);
+        setMarkedDates([]);
+      }
     } catch (err) {
       setError("Failed to fetch holiday data. Please try again later.");
+      setHolidays([]);
+      setMarkedDates([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, [countryCode]);
 
+  // Fetch holidays on mount and whenever the countryCode changes.
   useEffect(() => {
     fetchHolidays(selectedDate.getFullYear());
-  }, [countryCode, selectedDate.getFullYear()]);
+  }, [fetchHolidays]); // Removed selectedDate dependency
 
   const isHoliday = (date) =>
     markedDates.some((markedDate) => markedDate.toDateString() === date.toDateString());
 
-  const handleDateClick = (date) => {
+  const handleDateClick = useCallback((date) => {
     setSelectedDate(date);
-    const holidaysForSelectedDate = holidays.filter((holiday) =>
-      new Date(holiday.date).toDateString() === date.toDateString()
+    setSelectedHolidays(
+      holidays.filter((holiday) => 
+        new Date(holiday.date).toDateString() === date.toDateString()
+      )
     );
-    setSelectedHolidays(holidaysForSelectedDate);
-  };
-
-  useEffect(() => {
-    handleDateClick(new Date());
   }, [holidays]);
+
+  // Removed the useEffect that resets the selectedDate to new Date()
+
+  // Handling year change on calendar navigation.
+  const handleYearChange = ({ activeStartDate }) => {
+    const newYear = activeStartDate.getFullYear();
+    if (newYear !== selectedDate.getFullYear()) {
+      const newDate = new Date(newYear, 0, 1); // Force January 1st of the new year.
+      setSelectedDate(newDate);
+      fetchHolidays(newYear);  // Fetch new year's holidays.
+    }
+  };
 
   return (
     <div className="holiday-calendar-container">
@@ -64,14 +84,7 @@ const HolidayCalendar = ({ countryCode, countryName }) => {
             <Calendar
               className="styled-calendar"
               onClickDay={handleDateClick}
-              onActiveStartDateChange={({ activeStartDate }) => {
-                if (activeStartDate) {
-                  const newYear = activeStartDate.getFullYear();
-                  if (newYear !== selectedDate.getFullYear()) {
-                    fetchHolidays(newYear);
-                  }
-                }
-              }}
+              onActiveStartDateChange={handleYearChange}  // Use the year change handler here.
               value={selectedDate}
               tileClassName={({ date }) => (isHoliday(date) ? "holiday-tile" : "")}
               tileContent={({ date }) =>
